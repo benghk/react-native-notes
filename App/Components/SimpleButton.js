@@ -1,10 +1,18 @@
 import React, {
   Text,
-  View
+  View,
+  TouchableOpacity,
+  StyleSheet,
 } from 'react-native';
 
 export default class SimpleButton extends React.Component {
   render() {
-    return (<View><Text>Simple button</Text></View>);
+    return (
+      <TouchableOpacity onPress={()=>console.log('Pressed!')}>
+        <View>
+          <Text>Simple button</Text>
+        </View>
+      </TouchableOpacity>
+    );
   }
 }
