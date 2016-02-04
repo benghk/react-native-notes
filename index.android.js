@@ -10,21 +10,44 @@ var {
   StyleSheet,
   Text,
   View,
+  Navigator,
 } = React;
 
 import SimpleButton from './App/Components/SimpleButton';
+import NoteScreen from './App/Components/NoteScreen';
 
-var notes = React.createClass({
-  render: function() {
+class notes extends React.Component {
+  render() {
     return (
-      <View style={styles.container}>
-        <SimpleButton/>
-      </View>
+      <Navigator
+        initialRoute={{name: 'home'}}
+        renderScene={this.renderScene}
+      />
     );
   }
-});
 
-var styles = StyleSheet.create({
+  renderScene(route, navigator) {
+    switch(route.name) {
+      case 'home':
+        return (
+          <View style={styles.container}>
+            <SimpleButton
+              onPress={() => {
+                navigator.push({
+                  name: 'createNote'
+                });
+              }}
+              customText='Create Note'
+            />
+          </View>
+        );
+      case 'createNote':
+        return <NoteScreen/>;
+    }
+  }
+};
+
+const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: 'center',
