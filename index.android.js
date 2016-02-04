@@ -15,6 +15,46 @@ var {
 
 import SimpleButton from './App/Components/SimpleButton';
 import NoteScreen from './App/Components/NoteScreen';
+import HomeScreen from './App/Components/HomeScreen';
+
+const NavigationBarRouteMapper = {
+  LeftButton: function(route, navigator, index, navState) {
+    switch (route.name) {
+      case 'createNote':
+        return (
+          <SimpleButton
+            onPress={()=>navigator.pop()}
+            customText='Back'
+          />
+        );
+      default: return null;
+    }
+  },
+  RightButton: function(route, navigator, index, navState) {
+    switch (route.name) {
+      case 'home':
+        return (
+          <SimpleButton
+            onPress={()=>{
+              navigator.push({
+                name: 'createNote'
+              });
+            }}
+            customText='Create Note'
+          />
+        );
+      default: return null;
+    }
+  },
+  Title: function(route, navigator, index, navState) {
+    switch (route.name) {
+      case 'home':
+        return (<Text>Notes</Text>);
+      case 'createNote':
+        return (<Text>Create Note</Text>);
+    }
+  }
+}
 
 class notes extends React.Component {
   render() {
@@ -22,6 +62,11 @@ class notes extends React.Component {
       <Navigator
         initialRoute={{name: 'home'}}
         renderScene={this.renderScene}
+        navigationBar={
+          <Navigator.NavigationBar
+            routeMapper={NavigationBarRouteMapper}
+          />
+        }
       />
     );
   }
@@ -30,16 +75,7 @@ class notes extends React.Component {
     switch(route.name) {
       case 'home':
         return (
-          <View style={styles.container}>
-            <SimpleButton
-              onPress={() => {
-                navigator.push({
-                  name: 'createNote'
-                });
-              }}
-              customText='Create Note'
-            />
-          </View>
+          <HomeScreen/>
         );
       case 'createNote':
         return <NoteScreen/>;
