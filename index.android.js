@@ -25,6 +25,8 @@ const NavigationBarRouteMapper = {
           <SimpleButton
             onPress={()=>navigator.pop()}
             customText='Back'
+            style={styles.navBarLeftButton}
+            textStyle={styles.navBarButtonText}
           />
         );
       default: return null;
@@ -41,6 +43,8 @@ const NavigationBarRouteMapper = {
               });
             }}
             customText='Create Note'
+            style={styles.navBarRightButton}
+            textStyle={styles.navBarButtonText}
           />
         );
       default: return null;
@@ -49,9 +53,9 @@ const NavigationBarRouteMapper = {
   Title: function(route, navigator, index, navState) {
     switch (route.name) {
       case 'home':
-        return (<Text>Notes</Text>);
+        return (<Text style={styles.navBarTitleText}>Notes</Text>);
       case 'createNote':
-        return (<Text>Create Note</Text>);
+        return (<Text style={styles.navBarTitleText}>Create Note</Text>);
     }
   }
 }
@@ -65,6 +69,7 @@ class notes extends React.Component {
         navigationBar={
           <Navigator.NavigationBar
             routeMapper={NavigationBarRouteMapper}
+            style={styles.navBar}
           />
         }
       />
@@ -90,6 +95,31 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: '#F5FCFF',
   },
+  navContainer: {
+    flex: 1,
+  },
+  navBar: {
+    backgroundColor: '#5B29C1',
+    borderBottomColor: '#48209A',
+    borderBottomWidth: 1,
+  },
+  navBarTitleText: {
+    color: 'white',
+    fontSize: 16,
+    fontWeight: '500',
+    marginVertical: 16,
+  },
+  navBarLeftButton: {
+    paddingLeft: 10,
+  },
+  navBarRightButton: {
+    paddingRight: 10,
+  },
+  navBarButtonText: {
+    color: '#EEE',
+    fontSize: 16,
+    marginVertical: 16,
+  }
 });
 
 AppRegistry.registerComponent('notes', () => notes);
