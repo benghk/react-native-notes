@@ -19,7 +19,7 @@ export default class NoteScreen extends React.Component {
             placeholder="untitled"
             onEndEditing={()=>{this.refs.body.focus()}}
             style={styles.textInput}
-            underlineColorAndroid='transparent'
+            underlineColorAndroid="transparent"
           />
         </View>
         <View style={[styles.inputContainer, styles.body]}>
@@ -28,8 +28,8 @@ export default class NoteScreen extends React.Component {
             multiline={true}
             placeholder="start typing..."
             style={styles.textInput}
-            textAlignVertical='top'
-            underlineColorAndroid='transparent'
+            textAlignVertical="top"
+            underlineColorAndroid="transparent"
           />
         </View>
       </View>

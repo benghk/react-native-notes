@@ -7,11 +7,13 @@ import React, {
 } from 'react-native';
 
 import SimpleButton from './SimpleButton';
+import NoteList from './NoteList';
 
 export default class HomeScreen extends React.Component {
   render() {
     return (
       <View style={styles.container}>
+        <NoteList/>
         <Text style={styles.noNotesText}>You havent created any notes!</Text>
 
         <SimpleButton
@@ -32,12 +34,15 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
+    marginTop: 60,
   },
   noNotestext: {
     color: '#48209A',
     marginBottom: 10,
   },
   simpleButton: {
+    marginBottom: 100,
+    marginTop: 20,
     backgroundColor: '#5B29C1',
     paddingHorizontal: 20,
     paddingVertical: 15,
