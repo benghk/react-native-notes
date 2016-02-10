@@ -20,6 +20,7 @@ export default class NoteScreen extends React.Component {
             onEndEditing={()=>{this.refs.body.focus()}}
             style={styles.textInput}
             underlineColorAndroid="transparent"
+            value={this.props.title}
           />
         </View>
         <View style={[styles.inputContainer, styles.body]}>
@@ -30,6 +31,7 @@ export default class NoteScreen extends React.Component {
             style={styles.textInput}
             textAlignVertical="top"
             underlineColorAndroid="transparent"
+            value={this.props.body}
           />
         </View>
       </View>

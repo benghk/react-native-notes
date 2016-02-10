@@ -13,7 +13,7 @@ export default class HomeScreen extends React.Component {
   render() {
     return (
       <View style={styles.container}>
-        <NoteList/>
+        <NoteList navigator={this.props.navigator}/>
         <Text style={styles.noNotesText}>You havent created any notes!</Text>
 
         <SimpleButton

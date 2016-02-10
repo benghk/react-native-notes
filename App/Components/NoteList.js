@@ -2,13 +2,25 @@ import React, {
   StyleSheet,
   Text,
   View,
-  ListView
+  ListView,
+  TouchableOpacity
 } from 'react-native';
 
 export default class NoteList extends React.Component {
   constructor(props) {
     super(props);
     this.ds = new ListView.DataSource({rowHasChanged: (r1,r2)=> r1!==r2});
+  }
+
+  _onPress(rowData) {
+    this.props.navigator.push({
+      name: 'createNote',
+      note: {
+        id: rowData.id,
+        title: rowData.title,
+        body: rowData.body,
+      }
+    });
   }
 
   render() {
@@ -22,7 +34,9 @@ export default class NoteList extends React.Component {
         }
         renderRow={(rowData)=>{
           return (
-            <Text>{rowData.title}, and {rowData.body}</Text>
+            <TouchableOpacity onPress={()=>this._onPress(rowData)}>
+              <Text>{rowData.title}, and {rowData.body}</Text>
+            </TouchableOpacity>
           )
         }}
       />

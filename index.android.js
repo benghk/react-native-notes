@@ -80,10 +80,10 @@ class notes extends React.Component {
     switch(route.name) {
       case 'home':
         return (
-          <HomeScreen navigator={navigator}/>
+          <HomeScreen navigator={navigator} />
         );
       case 'createNote':
-        return <NoteScreen/>;
+        return <NoteScreen navigator={navigator}  {...route.note}/>;
     }
   }
 };
