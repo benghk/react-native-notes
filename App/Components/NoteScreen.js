@@ -8,6 +8,13 @@ import React, {
 } from 'react-native';
 
 export default class NoteScreen extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      note: this.props
+    };
+  }
+
   render() {
     return (
       //somewhat erroneous here at onEndEditing
@@ -20,7 +27,8 @@ export default class NoteScreen extends React.Component {
             onEndEditing={()=>{this.refs.body.focus()}}
             style={styles.textInput}
             underlineColorAndroid="transparent"
-            value={this.props.title}
+            onChangeText={(text)=>{this.setState(({note})=>({note: {...note, title:text}}));}}
+            value={this.state.note.title}
           />
         </View>
         <View style={[styles.inputContainer, styles.body]}>
@@ -31,7 +39,8 @@ export default class NoteScreen extends React.Component {
             style={styles.textInput}
             textAlignVertical="top"
             underlineColorAndroid="transparent"
-            value={this.props.body}
+            onChangeText={(text)=>{this.setState(({note})=>({note: {...note, body:text}}));}}
+            value={this.state.note.body}
           />
         </View>
       </View>
