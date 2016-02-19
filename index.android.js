@@ -83,7 +83,12 @@ class notes extends React.Component {
           <HomeScreen navigator={navigator} />
         );
       case 'createNote':
-        return <NoteScreen navigator={navigator}  {...route.note}/>;
+        return (
+          <NoteScreen
+            navigator={navigator} note={route.note}
+            onChangeNote={(note)=>console.log("note changed", note)}
+          />
+        );
     }
   }
 };
