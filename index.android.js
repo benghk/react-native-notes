@@ -61,6 +61,14 @@ const NavigationBarRouteMapper = {
 }
 
 class notes extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      notes: [{title: "Note 1", body: "Body 1 best", id: 1}, {title: "Note 2", body: "Body 2 ok", id: 2}]
+    };
+    this.renderScene=this.renderScene.bind(this);
+  }
+
   render() {
     return (
       <Navigator
@@ -78,17 +86,22 @@ class notes extends React.Component {
 
   renderScene(route, navigator) {
     switch(route.name) {
-      case 'home':
+      case 'home': {
         return (
-          <HomeScreen navigator={navigator} />
+          <HomeScreen
+            navigator={navigator}
+            notes={this.state.notes}
+          />
         );
-      case 'createNote':
+      }
+      case 'createNote': {
         return (
           <NoteScreen
             navigator={navigator} note={route.note}
             onChangeNote={(note)=>console.log("note changed", note)}
           />
         );
+      }
     }
   }
 };

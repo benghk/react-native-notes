@@ -27,10 +27,7 @@ export default class NoteList extends React.Component {
     return (
       <ListView
         dataSource={
-          this.ds.cloneWithRows([
-            {title: "Note 1", body: "Body 1", id: 1},
-            {title: "Note 2", body: "Body 2", id: 2},
-          ])
+          this.ds.cloneWithRows(this.props.notes)
         }
         renderRow={(rowData)=>{
           return (
