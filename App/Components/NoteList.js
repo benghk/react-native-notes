@@ -27,19 +27,18 @@ export default class NoteList extends React.Component {
   render() {
     return (
       <ListView
+        style={styles.container}
         dataSource={
           this.ds.cloneWithRows(this.props.notes)
         }
         renderRow={(rowData)=>{
           return (
-            <View style={styles.container}>
             <TouchableOpacity
               onPress={()=>this.props.onSelectNote(rowData)}
               style={styles.rowStyle}
             >
               <Text style={styles.rowText}>{rowData.title}, and {rowData.body}</Text>
             </TouchableOpacity>
-            </View>
           )
         }}
       />
@@ -54,13 +53,17 @@ var styles = StyleSheet.create({
     borderBottomColor: '#9E7CE3',
     borderBottomWidth: 1,
     paddingVertical: 20,
-    flexWrap: 'wrap',
-    flexDirection: 'row',
-    justifyContent: 'flex-start',
+    alignSelf: 'stretch',
+    marginRight: 10,
+    marginLeft: 10,
     //width: width,
   },
   rowText: {
     fontWeight: '600',
-    //justifyContent: 'center',
+    alignSelf: 'center',
   },
+  container: {
+    flexDirection: 'column',
+    alignSelf: 'stretch',
+  }
 });
