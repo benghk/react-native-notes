@@ -5,6 +5,8 @@
 'use strict';
 
 var React = require('react-native');
+var _ = require('underscore');
+
 var {
   AppRegistry,
   StyleSheet,
@@ -64,9 +66,19 @@ class notes extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      notes: [{title: "Note 1", body: "Body 1 best", id: 1}, {title: "Note 2", body: "Body 2 ok", id: 2}]
+      selectedNote: { title:"", body:"" },
+      notes: {
+        1: {title: "Note 1", body: "Body 1 best", id: 1},
+        2: {title: "Note 2", body: "Body 2 ok", id: 2}
+      }
     };
     this.renderScene=this.renderScene.bind(this);
+  }
+
+  updateNote(note) {
+    var newNotes = Object.assign({}, this.state.notes);
+    newNotes[note.id] = note;
+    this.setState({notes:newNotes});
   }
 
   render() {
@@ -89,16 +101,16 @@ class notes extends React.Component {
       case 'home': {
         return (
           <HomeScreen
-            navigator={navigator}
-            notes={this.state.notes}
+            notes={_(this.state.notes).toArray()}
+            onSelectNote={(note)=>navigator.push({name:"createNote", note:note})}
           />
         );
       }
       case 'createNote': {
         return (
           <NoteScreen
-            navigator={navigator} note={route.note}
-            onChangeNote={(note)=>console.log("note changed", note)}
+            note={route.note}
+            onChangeNote={(note)=>this.updateNote(note)}
           />
         );
       }

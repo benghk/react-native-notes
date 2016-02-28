@@ -14,7 +14,7 @@ export default class HomeScreen extends React.Component {
     return (
       <View style={styles.container}>
         <NoteList
-          navigator={this.props.navigator}
+          onSelectNote={this.props.onSelectNote}
           notes={this.props.notes}
         />
         <Text style={styles.noNotesText}>You havent created any notes!</Text>
