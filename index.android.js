@@ -13,6 +13,7 @@ var {
   Text,
   View,
   Navigator,
+  AsyncStorage,
 } = React;
 
 import SimpleButton from './App/Components/SimpleButton';
@@ -41,7 +42,12 @@ const NavigationBarRouteMapper = {
           <SimpleButton
             onPress={()=>{
               navigator.push({
-                name: 'createNote'
+                name: 'createNote',
+                note: {
+                  id: new Date().getTime(),
+                  title: '',
+                  body: '',
+                }
               });
             }}
             customText='Create Note'
@@ -57,7 +63,7 @@ const NavigationBarRouteMapper = {
       case 'home':
         return (<Text style={styles.navBarTitleText}>Notes</Text>);
       case 'createNote':
-        return (<Text style={styles.navBarTitleText}>Create Note</Text>);
+        return (<Text style={styles.navBarTitleText}>{route.note ? route.note.title : 'Create Note'}</Text>);
     }
   }
 }
