@@ -79,12 +79,33 @@ class notes extends React.Component {
       }
     };
     this.renderScene=this.renderScene.bind(this);
+    this.loadNotes();
   }
 
   updateNote(note) {
     var newNotes = Object.assign({}, this.state.notes);
     newNotes[note.id] = note;
     this.setState({notes:newNotes});
+    this.saveNotes(newNotes);
+  }
+
+  async saveNotes(notes) {
+    try {
+      await AsyncStorage.setItem("@ReactNotes:notes",JSON.stringify(notes));
+    } catch (error) {
+      console.log('AsyncStorage error: ' + error.message);
+    }
+  }
+
+  async loadNotes() {
+    try {
+      var notes = await AsyncStorage.getItem("@ReactNotes:notes");
+      if (notes!==null) {
+        this.setState({notes:JSON.parse(notes)})
+      }
+    } catch (error) {
+      console.log('AsyncStorage load error: ' + error.message);
+    }
   }
 
   render() {
