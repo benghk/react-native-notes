@@ -55,6 +55,20 @@ const NavigationBarRouteMapper = {
             textStyle={styles.navBarButtonText}
           />
         );
+      case 'createNote':
+        if (route.note.isSaved) {
+          return (
+            <SimpleButton
+              onPress={()=>{
+                navigator.props.onDeleteNote(route.note);
+                navigator.pop();
+              }}
+              customText='Delete'
+              style={styles.navBarRightButton}
+              textStyle={styles.navBarButtonText}
+            />
+          );
+        } else return null;
       default: return null;
     }
   },
@@ -84,11 +98,19 @@ class notes extends React.Component {
 
   updateNote(note) {
     var newNotes = Object.assign({}, this.state.notes);
+    note.isSaved = true;
     newNotes[note.id] = note;
     this.setState({notes:newNotes});
     this.saveNotes(newNotes);
   }
 
+  deleteNote(note) {
+    var newNotes = Object.assign({}, this.state.notes);
+    delete newNotes[note.id];
+    this.setState({notes:newNotes});
+    this.saveNotes(newNotes);
+  }
+  
   async saveNotes(notes) {
     try {
       await AsyncStorage.setItem("@ReactNotes:notes",JSON.stringify(notes));
@@ -119,6 +141,7 @@ class notes extends React.Component {
             style={styles.navBar}
           />
         }
+        onDeleteNote={(note)=>this.deleteNote(note)}
       />
     );
   }
