@@ -56,7 +56,7 @@ const NavigationBarRouteMapper = {
           />
         );
       case 'createNote':
-        if (route.note.isSaved) {
+        //if (route.note.isSaved) {
           return (
             <SimpleButton
               onPress={()=>{
@@ -68,7 +68,7 @@ const NavigationBarRouteMapper = {
               textStyle={styles.navBarButtonText}
             />
           );
-        } else return null;
+        //} else return null;
       default: return null;
     }
   },
@@ -110,12 +110,12 @@ class notes extends React.Component {
     this.setState({notes:newNotes});
     this.saveNotes(newNotes);
   }
-  
+
   async saveNotes(notes) {
     try {
       await AsyncStorage.setItem("@ReactNotes:notes",JSON.stringify(notes));
     } catch (error) {
-      console.log('AsyncStorage error: ' + error.message);
+      console.log('AsyncStorage save error: ' + error.message);
     }
   }
 
@@ -152,6 +152,7 @@ class notes extends React.Component {
         return (
           <HomeScreen
             notes={_(this.state.notes).toArray()}
+            navigator={navigator}
             onSelectNote={(note)=>navigator.push({name:"createNote", note:note})}
           />
         );

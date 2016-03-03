@@ -21,7 +21,12 @@ export default class HomeScreen extends React.Component {
 
         <SimpleButton
           onPress={()=>this.props.navigator.push({
-            name: 'createNote'
+            name: 'createNote',
+            note: {
+              id: new Date().getTime(),
+              title: '',
+              body: '',
+            }
           })}
           customText="Create Note"
           style={styles.simpleButton}
