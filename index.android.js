@@ -88,16 +88,36 @@ class notes extends React.Component {
     this.state = {
       selectedNote: { title:"", body:"" },
       notes: {
-        1: {title: "Note 1", body: "Body 1 best", id: 1},
-        2: {title: "Note 2", body: "Body 2 ok", id: 2}
+        1: {
+          title: "Note 1", body: "Body 1 best", id: 1,
+          location: {
+            coords: {
+              latitude: 33.987, longtitude: -118.47
+            }
+          }
+        },
+        2: {
+          title: "Note 2", body: "Body 2 ok", id: 2,
+          location: {
+            coords: {
+              latitude: 33.986, longtitude: -118.46
+            }
+          }
+        }
       }
     };
     this.renderScene=this.renderScene.bind(this);
     this.loadNotes();
+    this.trackLocation();
   }
 
   updateNote(note) {
     var newNotes = Object.assign({}, this.state.notes);
+
+    if (!note.isSaved) {
+      note.location = this.state.lastPosition;
+    }
+
     note.isSaved = true;
     newNotes[note.id] = note;
     this.setState({notes:newNotes});
@@ -128,6 +148,16 @@ class notes extends React.Component {
     } catch (error) {
       console.log('AsyncStorage load error: ' + error.message);
     }
+  }
+
+  trackLocation() {
+    navigator.geolocation.getCurrentPosition(
+      (initialPosition)=>this.setState({initialPosition}),
+      (error)=>alert(error.message)
+    );
+    this.watchID = navigator.geolocation.watchPosition(
+      (lastPosition)=>{this.setState(lastPosition)}
+    );
   }
 
   render() {
