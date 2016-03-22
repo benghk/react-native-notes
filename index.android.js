@@ -19,11 +19,22 @@ var {
 import SimpleButton from './App/Components/SimpleButton';
 import NoteScreen from './App/Components/NoteScreen';
 import HomeScreen from './App/Components/HomeScreen';
+import NoteLocationScreen from './App/Components/NoteLocationScreen';
 
 const NavigationBarRouteMapper = {
   LeftButton: function(route, navigator, index, navState) {
     switch (route.name) {
+      case 'home':
+        return (
+          <SimpleButton
+            onPress={()=>navigator.push({name: 'noteLocations'})}
+            customText='Map'
+            style={styles.navBarLeftButton}
+            textStyle={styles.navBarButtonText}
+          />
+        );
       case 'createNote':
+      case 'noteLocations':
         return (
           <SimpleButton
             onPress={()=>navigator.pop()}
@@ -78,6 +89,8 @@ const NavigationBarRouteMapper = {
         return (<Text style={styles.navBarTitleText}>Notes</Text>);
       case 'createNote':
         return (<Text style={styles.navBarTitleText}>{route.note ? route.note.title : 'Create Note'}</Text>);
+      case 'noteLocations':
+        return (<Text style={styles.navBarTitleText}>Note Locations</Text>);
     }
   }
 }
@@ -193,6 +206,11 @@ class notes extends React.Component {
             note={route.note}
             onChangeNote={(note)=>this.updateNote(note)}
           />
+        );
+      }
+      case 'noteLocations': {
+        return (
+          <NoteLocationScreen notes={this.state.notes} onSelectNote={(note)=>navigator.push({name:"createNote", note:note})}/>
         );
       }
     }
