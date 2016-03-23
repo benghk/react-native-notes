@@ -5,6 +5,8 @@
 'use strict';
 
 var React = require('react-native');
+// recent addons to handle immutable data (eg: JSON)
+var update = require('react-addons-update');
 var _ = require('underscore');
 
 var {
@@ -105,7 +107,7 @@ class notes extends React.Component {
           title: "Note 1", body: "Body 1 best", id: 1,
           location: {
             coords: {
-              latitude: 33.987, longtitude: -118.47
+              latitude: 33.987, longtitude: -118.47,
             }
           }
         },
@@ -113,11 +115,11 @@ class notes extends React.Component {
           title: "Note 2", body: "Body 2 ok", id: 2,
           location: {
             coords: {
-              latitude: 33.986, longtitude: -118.46
+              latitude: 33.986, longtitude: -118.46,
             }
           }
         }
-      }
+      },
     };
     this.renderScene=this.renderScene.bind(this);
     this.loadNotes();
@@ -125,14 +127,19 @@ class notes extends React.Component {
   }
 
   updateNote(note) {
-    var newNotes = Object.assign({}, this.state.notes);
+    let newNotes = Object.assign({}, this.state.notes);
+
+    // update note location using current state.location
+    let location = {coords: this.state.coords};
+    let newNote = update(note, {$merge: {location}});
 
     if (!note.isSaved) {
+      console.log('note is not saved. saving...');
       note.location = this.state.lastPosition;
     }
 
     note.isSaved = true;
-    newNotes[note.id] = note;
+    newNotes[note.id] = newNote;
     this.setState({notes:newNotes});
     this.saveNotes(newNotes);
   }
@@ -164,12 +171,13 @@ class notes extends React.Component {
   }
 
   trackLocation() {
+    // this.setState needs a specific name to store to
     navigator.geolocation.getCurrentPosition(
-      (initialPosition)=>this.setState({initialPosition}),
+      (initialPosition)=>{this.setState({coords: initialPosition.coords})},
       (error)=>alert(error.message)
     );
     this.watchID = navigator.geolocation.watchPosition(
-      (lastPosition)=>{this.setState(lastPosition)}
+      (lastPosition)=>{this.setState({coords: lastPosition.coords})}
     );
   }
 
@@ -210,7 +218,12 @@ class notes extends React.Component {
       }
       case 'noteLocations': {
         return (
-          <NoteLocationScreen notes={this.state.notes} onSelectNote={(note)=>navigator.push({name:"createNote", note:note})}/>
+          // passed coords from state to NoteLocationScreen
+          <NoteLocationScreen
+            notes={this.state.notes}
+            onSelectNote={(note)=>navigator.push({name:"createNote", note:note})}
+            coords={this.state.coords}
+          />
         );
       }
     }

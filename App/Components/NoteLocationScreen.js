@@ -9,12 +9,15 @@ import React, {
 import MapView from 'react-native-maps';
 
 export default class NoteLocationScreen extends React.Component {
-  render() {
-    console.log(this.props.notes);
+  constructor(props) {
+    super(props);
+  }
 
+  render() {
     return (
       <MapView
         style={styles.map}
+        showsUserLocation={true}
       />
     );
   }
