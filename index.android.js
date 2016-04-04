@@ -127,9 +127,10 @@ class notes extends React.Component {
   }
 
   updateNote(note) {
+    // create a new notelist object with current list
     let newNotes = Object.assign({}, this.state.notes);
 
-    // update note location using current state.location
+    // update note location using current state.location into note passed in
     let location = {coords: this.state.coords};
     let newNote = update(note, {$merge: {location}});
 
